@@ -34,6 +34,9 @@ public class FileManagerLogic
             { "DelFile", new FileDeleteCommand(UserInterface, this)  },
             { "RmDir", new DirectoryDeleteCommand(UserInterface, this) },
             { "DelDir", new DirectoryDeleteCommand(UserInterface, this)  },
+            { "AddFile", new AddFileCommand(UserInterface, this) },
+            { "AddDir", new AddDirectoryCommand(UserInterface, this) },
+
         };
 
         // рефлексия - для автоматизации добавления команд в словарь
