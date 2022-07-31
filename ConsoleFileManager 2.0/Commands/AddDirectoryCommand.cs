@@ -46,22 +46,22 @@ public class AddDirectoryCommand : FileManagerCommand
     {
 
         DirectoryInfo? directory = _FileManager.CurrentDirectory;
-        var dir_path = args[1];
         if (args.Length < 3)
             Aprove(directory.ToString(), args[1]);
         else
         {
+            var dir_path = args[1];
             var dir_name = args[2];
             var toOverride = dir_path.Trim() + dir_name.Trim();
 
-            if (args.Length == 3 & !Directory.Exists(toOverride))
+            if (!Directory.Exists(toOverride))
             {
                 dir_path = Path.Combine(_FileManager.CurrentDirectory.FullName, dir_path);
                 directory = new DirectoryInfo(dir_path);
                 Aprove(dir_path, dir_name);
             }
 
-            if (Directory.Exists(dir_path.Trim() + dir_name.Trim()))
+            else if (Directory.Exists(toOverride))
             {
                 Override(dir_path, dir_name);
             }

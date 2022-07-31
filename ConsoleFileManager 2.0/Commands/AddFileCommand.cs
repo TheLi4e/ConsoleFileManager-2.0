@@ -26,7 +26,7 @@ public class AddFileCommand : FileManagerCommand
         }
         else
             return;
-    } 
+    }
 
     private void Override(string dir_path, string file_name)
     {
@@ -44,25 +44,24 @@ public class AddFileCommand : FileManagerCommand
 
     public override void Execute(string[] args)
     {
-        
+
         DirectoryInfo? directory = _FileManager.CurrentDirectory;
-        _UserInterface.WriteLine(directory.ToString());
-        var dir_path = args[1];
         if (args.Length < 3)
             Aprove(directory.ToString(), args[1]);
         else
         {
+            var dir_path = args[1];
             var file_name = args[2];
             var toOverride = dir_path.Trim() + file_name.Trim();
 
-            if (args.Length == 3 & !File.Exists(toOverride))
+            if (!File.Exists(toOverride))
             {
                 dir_path = Path.Combine(_FileManager.CurrentDirectory.FullName, dir_path);
                 directory = new DirectoryInfo(dir_path);
                 Aprove(dir_path, file_name);
             }
 
-            if (File.Exists(dir_path.Trim() + file_name.Trim()))
+            else if (File.Exists(toOverride))
             {
                 Override(dir_path, file_name);
             }
