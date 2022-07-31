@@ -21,7 +21,7 @@ public class DeleteFileCommand : FileManagerCommand
         var aprove = _UserInterface.ReadLine($"Вы точно хотите удалить {file_path} да/нет?", false).ToLower();
         if (aprove == "да")
         {
-            Directory.Delete(file_path, true);
+            File.Delete(file_path);
             _UserInterface.WriteLine($"Файл {file_path} удален.");
         }
         else
@@ -44,7 +44,7 @@ public class DeleteFileCommand : FileManagerCommand
             var args1 = String.Join(" ", args);
             var fileWithSpace = args1.Split('\"');
 
-            if (fileWithSpace.Length < 2 || !Directory.Exists(fileWithSpace[1]))
+            if (fileWithSpace.Length < 2 || !File.Exists(fileWithSpace[1]))
                 _UserInterface.WriteLine("Указанная директория не существует.");
 
             Aprove(fileWithSpace[1]);
