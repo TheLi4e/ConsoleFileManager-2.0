@@ -2,12 +2,12 @@
 
 namespace FileManager.Commands;
 
-public class FileDeleteCommand : FileManagerCommand
+public class DeleteFileCommand : FileManagerCommand
 {
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
     public override string Description => "Удаление файла";
-    public FileDeleteCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
+    public DeleteFileCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {
         _UserInterface = UserInterface;
         _FileManager = FileManager;

@@ -3,12 +3,12 @@
 
 namespace FileManager.Commands;
 
-public class DirectoryDeleteCommand : FileManagerCommand
+public class DeleteDirectoryCommand : FileManagerCommand
 {
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
     public override string Description => "Удаление директории";
-    public DirectoryDeleteCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
+    public DeleteDirectoryCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {
         _UserInterface = UserInterface;
         _FileManager = FileManager;

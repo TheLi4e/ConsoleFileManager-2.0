@@ -2,11 +2,11 @@
 
 namespace FileManager.Commands;
 
-public class DirectoryRenameCommand : FileManagerCommand
+public class RenameDirectoryCommand : FileManagerCommand
 {
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
-    public DirectoryRenameCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
+    public RenameDirectoryCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {
         _UserInterface = UserInterface;
         _FileManager = FileManager;
