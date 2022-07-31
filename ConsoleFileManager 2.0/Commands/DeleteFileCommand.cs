@@ -38,7 +38,7 @@ public class DeleteFileCommand : FileManagerCommand
         }
 
         var file_path = args[1];
-       
+
         if (!File.Exists(file_path))
         {
             var args1 = String.Join(" ", args);

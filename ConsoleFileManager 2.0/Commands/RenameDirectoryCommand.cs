@@ -27,9 +27,13 @@ public class RenameDirectoryCommand : FileManagerCommand
     }
     public override void Execute(string[] args)
     {
-        DirectoryInfo? directory = _FileManager.CurrentDirectory;
+        
         if (args.Length < 3)
+        {
+            DirectoryInfo? directory = _FileManager.CurrentDirectory;
             Aprove(directory.ToString(), args[1]);
+        }
+            
         else
         {
             var dir_name = args[1];

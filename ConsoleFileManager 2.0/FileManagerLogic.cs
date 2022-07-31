@@ -26,7 +26,7 @@ public class FileManagerLogic
             { "dir\t", list_dir_command },
             { "ListDir", list_dir_command },
             { "help", help_command },
-            { "?\t", help_command },
+            { "info", help_command },
             { "quit", quit_command },
             { "exit", quit_command },
             { "cd", new ChangeDirectoryCommand(UserInterface, this) },
@@ -40,7 +40,9 @@ public class FileManagerLogic
             { "RenameFile", new RenameFileCommand(UserInterface, this) },
             { "RnDir", new RenameDirectoryCommand(UserInterface, this) },
             { "RenameDir", new RenameDirectoryCommand(UserInterface, this) },
-            
+            { "CpFile", new CopyFileCommand(UserInterface, this) },
+            { "CopyFile", new CopyFileCommand(UserInterface, this) },
+
         };
 
         // рефлексия - для автоматизации добавления команд в словарь
@@ -54,7 +56,7 @@ public class FileManagerLogic
         //var can_work = true;
         do
         {
-            var input = _UserInterface.ReadLine($"> {CurrentDirectory}", false);
+            var input = _UserInterface.ReadLine($"Текущая директория {CurrentDirectory}\nВведите команду:> ", false);
 
             var args = input.Split(' ');
             var command_name = args[0];

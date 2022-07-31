@@ -47,7 +47,7 @@ public class ChangeDirectoryCommand : FileManagerCommand
 
             if (!Directory.Exists(dirWithSpace[1]))
                 _UserInterface.WriteLine($"Директория {directory} не существует");
-           
+
             _FileManager.CurrentDirectory = directory;
 
             _UserInterface.WriteLine($"Текущая директория изменена на {directory.FullName}");
