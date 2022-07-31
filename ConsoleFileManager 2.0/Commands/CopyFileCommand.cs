@@ -17,6 +17,18 @@ public class CopyFileCommand : FileManagerCommand
     {
         var toCopy = dir_path.Trim() + file_name.Trim();
         var newDir = newDir_path.Trim() + file_name.Trim();
+        if (File.Exists(newDir))
+        {
+           var aprove = _UserInterface.ReadLine("Файл уже существует. Перезаписать? да/нет").ToLower();
+            if (aprove == "да")
+            {
+                File.Copy(toCopy, newDir, true);
+                _UserInterface.WriteLine($"Файл {file_name} скопирован в {newDir_path}.");
+            }
+            else
+                return;
+        }
+
         File.Copy(toCopy, newDir);
         _UserInterface.WriteLine($"Файл {file_name} скопирован в {newDir_path}.");
     }

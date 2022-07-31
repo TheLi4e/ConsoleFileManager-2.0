@@ -42,6 +42,8 @@ public class FileManagerLogic
             { "RenameDir", new RenameDirectoryCommand(UserInterface, this) },
             { "CpFile", new CopyFileCommand(UserInterface, this) },
             { "CopyFile", new CopyFileCommand(UserInterface, this) },
+            { "CpDir", new CopyDirectoryCommand(UserInterface, this) },
+            { "CopyDir", new CopyDirectoryCommand(UserInterface, this) },
 
         };
 
