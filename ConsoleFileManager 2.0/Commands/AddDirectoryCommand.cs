@@ -18,7 +18,7 @@ public class AddDirectoryCommand : FileManagerCommand
     private void Aprove(string dir_path, string dir_name)
     {
         var toOverride = dir_path.Trim() + dir_name.Trim();
-        var aprove = _UserInterface.ReadLine($"Создать директорию{dir_name} да/нет? ", false).ToLower();
+        var aprove = _UserInterface.ReadLine($"Создать директорию {dir_name} да/нет? ", false).ToLower();
         if (aprove == "да")
         {
             Directory.CreateDirectory(toOverride);
