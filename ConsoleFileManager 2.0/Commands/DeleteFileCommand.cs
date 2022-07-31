@@ -31,29 +31,31 @@ public class DeleteFileCommand : FileManagerCommand
     public override void Execute(string[] args)
     {
 
-        if (args.Length < 2 || string.IsNullOrWhiteSpace(args[1]))
+        DirectoryInfo? directory = _FileManager.CurrentDirectory;
+        if (args.Length < 3)
         {
-            _UserInterface.WriteLine("Для команды удаления файла необходимо указать один параметр - целевой каталог");
-            return;
+            var toDel = directory.ToString() + args[1].Trim();
+            Aprove(toDel);
         }
-
-        var file_path = args[1];
-
-        if (!File.Exists(file_path))
+        else
         {
-            var args1 = String.Join(" ", args);
-            var fileWithSpace = args1.Split('\"');
+            var file_path = args[1];
 
-            if (fileWithSpace.Length < 2 || !File.Exists(fileWithSpace[1]))
-                _UserInterface.WriteLine("Указанная директория не существует.");
+            if (!File.Exists(file_path))
+            {
+                var args1 = String.Join(" ", args);
+                var fileWithSpace = args1.Split('\"');
 
-            Aprove(fileWithSpace[1]);
+                if (fileWithSpace.Length < 2 || !File.Exists(fileWithSpace[1]))
+                    _UserInterface.WriteLine("Указанный файл не существует.");
+
+                Aprove(fileWithSpace[1]);
+            }
+
+            else if (File.Exists(file_path))
+            {
+                Aprove(file_path);
+            }
         }
-
-        else if (File.Exists(file_path))
-        {
-            Aprove(file_path);
-        }
-
     }
 }

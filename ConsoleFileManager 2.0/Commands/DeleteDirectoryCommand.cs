@@ -16,14 +16,14 @@ public class DeleteDirectoryCommand : FileManagerCommand
     /// <summary>
     /// Метод для подтверждения
     /// </summary>
-    /// <param name="dir_path">Путь к файлу</param>
+    /// <param name="dir_path">Путь к директории</param>
     private void Aprove (string dir_path)
     {
         var aprove = _UserInterface.ReadLine($"Вы точно хотите удалить {dir_path} да/нет?", false).ToLower();
         if (aprove == "да")
         {
             Directory.Delete(dir_path, true);
-            _UserInterface.WriteLine($"Файл {dir_path} удален.");
+            _UserInterface.WriteLine($"Директория {dir_path} удален.");
         }
         else
             return;
@@ -31,30 +31,33 @@ public class DeleteDirectoryCommand : FileManagerCommand
     public override void Execute(string[] args)
     {
 
-        if (args.Length < 2 || string.IsNullOrWhiteSpace(args[1]))
+        DirectoryInfo? directory = _FileManager.CurrentDirectory;
+        if (args.Length < 3)
         {
-            _UserInterface.WriteLine("Для команды удаления директории необходимо указать один параметр - целевой каталог");
+            Aprove(directory.ToString());
             return;
         }
-
-        var dir_path = args[1];
-        if (!Directory.Exists(dir_path))
+        else
         {
-            
-            var args1 = String.Join(" ", args);
-            var dirWithSpace = args1.Split('\"');
-           
-            if (dirWithSpace.Length<2 || !Directory.Exists(dirWithSpace[1]))
-                _UserInterface.WriteLine("Указанная директория не существует.");
+            var dir_path = args[1];
+            if (!Directory.Exists(dir_path))
+            {
 
-            Aprove(dirWithSpace[1]);
-        }
+                var args1 = String.Join(" ", args);
+                var dirWithSpace = args1.Split('\"');
+
+                if (dirWithSpace.Length < 2 || !Directory.Exists(dirWithSpace[1]))
+                    _UserInterface.WriteLine("Указанная директория не существует.");
+
+                Aprove(dirWithSpace[1]);
+            }
 
 
-        else if (Directory.Exists(dir_path))
-        {
-            Aprove(dir_path);
+            else if (Directory.Exists(dir_path))
+            {
+                Aprove(dir_path);
 
+            }
         }
 
     }
