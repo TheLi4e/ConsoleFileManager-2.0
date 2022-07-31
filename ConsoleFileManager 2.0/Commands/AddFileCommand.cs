@@ -50,20 +50,41 @@ public class AddFileCommand : FileManagerCommand
             Aprove(directory.ToString(), args[1]);
         else
         {
-            var dir_path = args[1];
-            var file_name = args[2];
-            var toOverride = dir_path.Trim() + file_name.Trim();
-
-            if (!File.Exists(toOverride))
+            if (!Directory.Exists(args[1]))
             {
-                dir_path = Path.Combine(_FileManager.CurrentDirectory.FullName, dir_path);
-                directory = new DirectoryInfo(dir_path);
-                Aprove(dir_path, file_name);
+                var args1 = String.Join(" ", args);
+                var fileWithSpace = args1.Split('\"');
+                var dir_path = fileWithSpace[1];
+                var file_name = fileWithSpace[2];
+                var toOverride = dir_path.Trim() + file_name.Trim();
+                if (!Directory.Exists(fileWithSpace[1]))
+                    _UserInterface.WriteLine("Указанной директории не существует.");
+                if (!File.Exists(toOverride))
+                {
+                    Aprove(dir_path, file_name);
+                }
+
+                else if (File.Exists(toOverride))
+                {
+                    Override(dir_path, file_name);
+                }
             }
 
-            else if (File.Exists(toOverride))
+            else
             {
-                Override(dir_path, file_name);
+                var dir_path = args[1];
+                var file_name = args[2];
+                var toOverride = dir_path.Trim() + file_name.Trim();
+
+                if (!File.Exists(toOverride))
+                {
+                    Aprove(dir_path, file_name);
+                }
+
+                else if (File.Exists(toOverride))
+                {
+                    Override(dir_path, file_name);
+                }
             }
         }
     }

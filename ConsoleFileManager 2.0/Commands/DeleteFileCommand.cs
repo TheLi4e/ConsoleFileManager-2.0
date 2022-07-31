@@ -46,7 +46,7 @@ public class DeleteFileCommand : FileManagerCommand
                 var args1 = String.Join(" ", args);
                 var fileWithSpace = args1.Split('\"');
 
-                if (fileWithSpace.Length < 2 || !File.Exists(fileWithSpace[1]))
+                if (!File.Exists(fileWithSpace[1]))
                     _UserInterface.WriteLine("Указанный файл не существует.");
 
                 Aprove(fileWithSpace[1]);

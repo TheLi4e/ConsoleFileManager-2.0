@@ -18,53 +18,44 @@ public class AddDirectoryCommand : FileManagerCommand
     private void Aprove(string dir_path, string dir_name)
     {
         var toOverride = dir_path.Trim() + dir_name.Trim();
-        var aprove = _UserInterface.ReadLine($"Создать папку {dir_name} да/нет? ", false).ToLower();
+        var aprove = _UserInterface.ReadLine($"Создать директорию{dir_name} да/нет? ", false).ToLower();
         if (aprove == "да")
         {
             Directory.CreateDirectory(toOverride);
-            _UserInterface.WriteLine($"Папка {dir_name} создана.");
+            _UserInterface.WriteLine($"Директория {dir_name} создана.");
         }
         else
             return;
     }
-
-    private void Override(string dir_path, string dir_name)
-    {
-        var toOverride = dir_path.Trim() + dir_name.Trim();
-        var aprove = _UserInterface.ReadLine($"Директория {dir_name} существует. Перезаписать? да/нет? ", false).ToLower();
-        if (aprove == "да")
-        {
-            Directory.CreateDirectory(toOverride);
-            _UserInterface.WriteLine($"Директория {dir_name} перезаписана.");
-        }
-        else
-            return;
-    }
-
 
     public override void Execute(string[] args)
     {
-
         DirectoryInfo? directory = _FileManager.CurrentDirectory;
         if (args.Length < 3)
             Aprove(directory.ToString(), args[1]);
         else
         {
-            var dir_path = args[1];
-            var dir_name = args[2];
-            var toOverride = dir_path.Trim() + dir_name.Trim();
-
-            if (!Directory.Exists(toOverride))
+            if (!Directory.Exists(args[1]))
             {
-                dir_path = Path.Combine(_FileManager.CurrentDirectory.FullName, dir_path);
-                directory = new DirectoryInfo(dir_path);
+                var args1 = String.Join(" ", args);
+                var fileWithSpace = args1.Split('\"');
+                var dir_path = fileWithSpace[1];
+                var dir_name = fileWithSpace[2];
+                var toOverride = dir_path.Trim() + dir_name.Trim();
+
+                if (!Directory.Exists(fileWithSpace[1]))
+                    _UserInterface.WriteLine("Указанной директории не существует.");
+
                 Aprove(dir_path, dir_name);
             }
-
-            else if (Directory.Exists(toOverride))
+            else
             {
-                Override(dir_path, dir_name);
+                var dir_path = args[1];
+                var file_name = args[2];
+                
+                Aprove(dir_path, file_name);
             }
         }
+
     }
 }
