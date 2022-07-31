@@ -23,10 +23,10 @@ public class FileManagerLogic
         Commands = new Dictionary<string, FileManagerCommand>
         {
             { "drives", new ListDrivesCommand(UserInterface) },
-            { "dir", list_dir_command },
+            { "dir\t", list_dir_command },
             { "ListDir", list_dir_command },
             { "help", help_command },
-            { "?", help_command },
+            { "?\t", help_command },
             { "quit", quit_command },
             { "exit", quit_command },
             { "cd", new ChangeDirectoryCommand(UserInterface, this) },
@@ -36,8 +36,11 @@ public class FileManagerLogic
             { "DelDir", new DirectoryDeleteCommand(UserInterface, this)  },
             { "AddFile", new AddFileCommand(UserInterface, this) },
             { "AddDir", new AddDirectoryCommand(UserInterface, this) },
-            { "RnFile", new FIleRenameCommand(UserInterface, this) },
-            { "RenameFile", new FIleRenameCommand(UserInterface, this) },
+            { "RnFile", new FileRenameCommand(UserInterface, this) },
+            { "RenameFile", new FileRenameCommand(UserInterface, this) },
+            { "RnDir", new DirectoryRenameCommand(UserInterface, this) },
+            { "RenameDir", new DirectoryRenameCommand(UserInterface, this) },
+            
         };
 
         // рефлексия - для автоматизации добавления команд в словарь
@@ -51,7 +54,7 @@ public class FileManagerLogic
         //var can_work = true;
         do
         {
-            var input = _UserInterface.ReadLine("> ", false);
+            var input = _UserInterface.ReadLine($"> {CurrentDirectory}", false);
 
             var args = input.Split(' ');
             var command_name = args[0];

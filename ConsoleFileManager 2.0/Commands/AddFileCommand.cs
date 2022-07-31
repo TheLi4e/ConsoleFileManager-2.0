@@ -5,7 +5,7 @@ public class AddFileCommand : FileManagerCommand
 {
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
-    public override string Description => "Для создания файла в текущей директории введите имя файла.Для создания файла в другой директории введите путь и имя файла через пробел.";
+    public override string Description => "Для создания файла в текущей директории введите имя файла.\n \t\tДля создания файла в другой директории введите путь и имя файла через пробел.";
     public AddFileCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {
         _UserInterface = UserInterface;

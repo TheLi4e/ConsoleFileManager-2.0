@@ -2,20 +2,20 @@
 
 namespace FileManager.Commands;
 
-public class FIleRenameCommand : FileManagerCommand
+public class FileRenameCommand : FileManagerCommand
 {
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
-    public FIleRenameCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
+    public FileRenameCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {
         _UserInterface = UserInterface;
         _FileManager = FileManager;
     }
-    public override string Description => "Переименование файла.";
+    public override string Description => "Переименование файла. Для переименования файла в текущей директории введите текущее имя файла\n \t\tи новое имя файла через пробел. Для переименовании файла в другой директории\n \t\tвведите сначала путь. ";
 
     private void Aprove(string dir_path, string file_name, string newFileName)
     {
-        //System.IO.Directory.Move(@"D:\1", @"D:\2")
+
         var toRename = dir_path.Trim() + file_name.Trim();
         var newName = dir_path.Trim() + newFileName.Trim();
         var aprove = _UserInterface.ReadLine($"Переименовать {file_name} да/нет? ", false).ToLower();

@@ -47,8 +47,7 @@ public class DirectoryDeleteCommand : FileManagerCommand
             if (dirWithSpace.Length<2 || !Directory.Exists(dirWithSpace[1]))
                 _UserInterface.WriteLine("Указанная директория не существует.");
 
-            else
-                Aprove(dirWithSpace[1]);
+            Aprove(dirWithSpace[1]);
         }
 
 

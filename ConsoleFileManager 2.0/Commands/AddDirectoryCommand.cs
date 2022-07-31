@@ -5,7 +5,7 @@ public class AddDirectoryCommand : FileManagerCommand
 {
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
-    public override string Description => "Для создания вложенной директории введите имя папки.Для создания папки в другой директории введите путь и имя папки через пробел.";
+    public override string Description => "Для создания вложенной директории введите имя папки.\n \t\tДля создания папки в другой директории введите путь и имя папки через пробел.";
     public AddDirectoryCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {
         _UserInterface = UserInterface;
