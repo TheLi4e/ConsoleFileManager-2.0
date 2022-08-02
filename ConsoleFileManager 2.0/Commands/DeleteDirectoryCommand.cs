@@ -52,12 +52,8 @@ public class DeleteDirectoryCommand : FileManagerCommand
                 Aprove(dirWithSpace[1]);
             }
 
-
-            else if (Directory.Exists(dir_path))
-            {
+            else 
                 Aprove(dir_path);
-
-            }
         }
 
     }

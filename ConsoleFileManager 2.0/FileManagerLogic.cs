@@ -44,6 +44,10 @@ public class FileManagerLogic
             { "CopyFile", new CopyFileCommand(UserInterface, this) },
             { "CpDir", new CopyDirectoryCommand(UserInterface, this) },
             { "CopyDir", new CopyDirectoryCommand(UserInterface, this) },
+            { "MvFile", new MoveFileCommand(UserInterface, this) },
+            { "MoveFile", new MoveFileCommand(UserInterface, this) },
+            { "MvDir", new MoveDirCommand(UserInterface, this) },
+            { "MoveDir", new MoveDirCommand(UserInterface, this) },
 
         };
 

@@ -52,10 +52,8 @@ public class DeleteFileCommand : FileManagerCommand
                 Aprove(fileWithSpace[1]);
             }
 
-            else if (File.Exists(file_path))
-            {
+            else 
                 Aprove(file_path);
-            }
         }
     }
 }
