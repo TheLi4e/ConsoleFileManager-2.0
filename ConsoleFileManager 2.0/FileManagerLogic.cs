@@ -1,5 +1,7 @@
-﻿using FileManager.Commands;
+﻿using ConsoleFileManager_2._0.GUI;
+using FileManager.Commands;
 using FileManager.Commands.Base;
+using FileManagerOOP.GUI;
 
 namespace FileManager;
 
@@ -7,47 +9,54 @@ public class FileManagerLogic
 {
     private bool _CanWork = true;
 
-    private readonly IUserInterface _UserInterface;
+    private readonly IUserInterface _DefaultWindow;
+    private readonly IUserInterface _InfoWindow;
+    private readonly IUserInterface _ConsoleWindow;
 
     public DirectoryInfo CurrentDirectory { get; set; } = new("c:\\");
 
     public IReadOnlyDictionary<string, FileManagerCommand> Commands { get; }
 
-    public FileManagerLogic(IUserInterface UserInterface)
+    public FileManagerLogic(IUserInterface defaultWindow, IUserInterface infoWindow, IUserInterface consoleWindow)
     {
-        _UserInterface = UserInterface;
+        _DefaultWindow = defaultWindow;
+        _InfoWindow = infoWindow;
+        _ConsoleWindow = consoleWindow;
 
-        var list_dir_command = new PrintDirectoryFilesCommand(UserInterface, this);
-        var help_command = new HelpCommand(UserInterface, this);
+        
+        var list_dir_command = new PrintDirectoryFilesCommand(defaultWindow, this);
+        var help_command = new HelpCommand(defaultWindow, this);
         var quit_command = new QuitCommand(this);
         Commands = new Dictionary<string, FileManagerCommand>
         {
-            { "drives", new ListDrivesCommand(UserInterface) },
-            { "dir\t", list_dir_command },
+            { "drives", new ListDrivesCommand(defaultWindow) },
+            { "dir", list_dir_command },
             { "ListDir", list_dir_command },
             { "help", help_command },
             { "info", help_command },
             { "quit", quit_command },
             { "exit", quit_command },
-            { "cd", new ChangeDirectoryCommand(UserInterface, this) },
-            { "RmFile", new DeleteFileCommand(UserInterface, this) },
-            { "DelFile", new DeleteFileCommand(UserInterface, this)  },
-            { "RmDir", new DeleteDirectoryCommand(UserInterface, this) },
-            { "DelDir", new DeleteDirectoryCommand(UserInterface, this)  },
-            { "AddFile", new AddFileCommand(UserInterface, this) },
-            { "AddDir", new AddDirectoryCommand(UserInterface, this) },
-            { "RnFile", new RenameFileCommand(UserInterface, this) },
-            { "RenameFile", new RenameFileCommand(UserInterface, this) },
-            { "RnDir", new RenameDirectoryCommand(UserInterface, this) },
-            { "RenameDir", new RenameDirectoryCommand(UserInterface, this) },
-            { "CpFile", new CopyFileCommand(UserInterface, this) },
-            { "CopyFile", new CopyFileCommand(UserInterface, this) },
-            { "CpDir", new CopyDirectoryCommand(UserInterface, this) },
-            { "CopyDir", new CopyDirectoryCommand(UserInterface, this) },
-            { "MvFile", new MoveFileCommand(UserInterface, this) },
-            { "MoveFile", new MoveFileCommand(UserInterface, this) },
-            { "MvDir", new MoveDirCommand(UserInterface, this) },
-            { "MoveDir", new MoveDirCommand(UserInterface, this) },
+            { "cd", new ChangeDirectoryCommand(defaultWindow, this) },
+            { "RmFile", new DeleteFileCommand(defaultWindow, this) },
+            { "DelFile", new DeleteFileCommand(defaultWindow, this)  },
+            { "RmDir", new DeleteDirectoryCommand(defaultWindow, this) },
+            { "DelDir", new DeleteDirectoryCommand(defaultWindow, this)  },
+            { "AddFile", new AddFileCommand(defaultWindow, this) },
+            { "AddDir", new AddDirectoryCommand(defaultWindow, this) },
+            { "RnFile", new RenameFileCommand(defaultWindow, this) },
+            { "RenameFile", new RenameFileCommand(defaultWindow, this) },
+            { "RnDir", new RenameDirectoryCommand(defaultWindow, this) },
+            { "RenameDir", new RenameDirectoryCommand(defaultWindow, this) },
+            { "CpFile", new CopyFileCommand(defaultWindow, this) },
+            { "CopyFile", new CopyFileCommand(defaultWindow, this) },
+            { "CpDir", new CopyDirectoryCommand(defaultWindow, this) },
+            { "CopyDir", new CopyDirectoryCommand(defaultWindow, this) },
+            { "MvFile", new MoveFileCommand(defaultWindow, this) },
+            { "MoveFile", new MoveFileCommand(defaultWindow, this) },
+            { "MvDir", new MoveDirCommand(defaultWindow, this) },
+            { "MoveDir", new MoveDirCommand(defaultWindow, this) },
+            { "FileInfo", new GetFileAtributesCommand(defaultWindow, this) },
+            { "DirInfo", new GetDirAtributesCommand(defaultWindow, this) },
 
         };
 
@@ -57,41 +66,86 @@ public class FileManagerLogic
 
     public void Start()
     {
-        _UserInterface.WriteLine("Файловый менеджер v2.0");
-
-        //var can_work = true;
-        do
+        _InfoWindow.WriteLine("Для работы с консольным менеджером введите go.");
+             
+        _InfoWindow.Write("Чтобы завершить работу программу введите exit: ");
+        string TaskNumber = Console.ReadLine();
+        switch (TaskNumber)
         {
-            var input = _UserInterface.ReadLine($"Текущая директория {CurrentDirectory}\nВведите команду:> ", false);
+            case "go":
+                do
+                {
+                    
+                    DrawConsole(0, 38, 120, 8);
+                    DrawConsole(0, 46, 120, 3);
+                  
+                    _InfoWindow.Write($"Текущая директория {CurrentDirectory}");
+                    var input = _ConsoleWindow.ReadLine($"Введите команду:> ", false);
 
-            var args = input.Split(' ');
-            var command_name = args[0];
+                    var args = input.Split(' ');
+                    var command_name = args[0];
 
-            if (!Commands.TryGetValue(command_name, out var command))
-            {
-                _UserInterface.WriteLine($"Неизвестная команда {command_name}.");
-                _UserInterface.WriteLine("Для справки введите help, для выхода quit");
-                continue;
-            }
+                    if (!Commands.TryGetValue(command_name, out var command))
+                    {
+                        _InfoWindow.WriteLine($"Неизвестная команда {command_name}.");
+                        _InfoWindow.WriteLine("Для справки введите help.");
+                        Console.ReadKey(true);
+                        continue;
+                    }
 
-            try
-            {
-                command.Execute(args);
-            }
-            catch (Exception error)
-            {
-                _UserInterface.WriteLine($"При выполнении команды {command_name} произошла ошибка:");
-                _UserInterface.WriteLine(error.Message);
-            }
+                    try
+                    {
+                        command.Execute(args);
+                        Console.ReadKey(true);
+                        DrawConsole(0, 0, 120, 38);
+                    }
+                    catch (Exception error)
+                    {
+                        var infoWindow = new Window(0, 38, 120, 8);
+                        infoWindow.DrawWindow();
+                        Console.SetCursorPosition(1, 39);
+                        _InfoWindow.WriteLine($"При выполнении команды {command_name} произошла ошибка:");
+                        _InfoWindow.WriteLine(error.Message);
+                        DateTime date = DateTime.Now;
+                        if (!File.Exists($@"{Environment.CurrentDirectory}\ErrorsLog.txt"))
+                        {
+                            File.Create($@"{Environment.CurrentDirectory}\ErrorsLog.txt");
+                        }
+                        File.AppendAllText($@"{Environment.CurrentDirectory}\ErrorsLog", ($"{date} {error.Message} \n"));
+                        Console.ReadKey(true);
+                        continue;
+                    }
+                    
+                }
+                while (_CanWork);
+                break;
+            case "exit":
+                _CanWork=false;
+                DrawConsole(0, 38, 120, 8);
+                Console.SetCursorPosition(2, 39);
+                _InfoWindow.WriteLine("Завершение работы приложения...");
+                Console.ReadKey(true);
+                Stop();
+                break;
+            default:
+                DrawConsole(0, 38, 120, 8);
+                Console.SetCursorPosition(2, 39);
+                _InfoWindow.WriteLine("Ошибка ввода. Запускаю приложение.");
+                Console.ReadKey(true);
+                goto case "go";
         }
-        while (_CanWork);
-
-
-        _UserInterface.WriteLine("Логика файлового менеджера завершена. Всего наилучшего!");
+        
     }
 
     public void Stop()
     {
         _CanWork = false;
+    }
+
+    static void DrawConsole(int x, int y, int width, int height)
+    {
+        var defaultWindow = new Window (x, y, width, height);
+        defaultWindow.DrawWindow();
+        Console.SetCursorPosition(x + 1, y + height / 2);
     }
 }

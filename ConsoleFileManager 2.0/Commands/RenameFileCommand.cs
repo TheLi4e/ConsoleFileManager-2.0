@@ -1,4 +1,5 @@
-﻿using FileManager.Commands.Base;
+﻿using ConsoleFileManager_2._0.GUI;
+using FileManager.Commands.Base;
 
 namespace FileManager.Commands;
 
@@ -11,7 +12,7 @@ public class RenameFileCommand : FileManagerCommand
         _UserInterface = UserInterface;
         _FileManager = FileManager;
     }
-    public override string Description => "Переименование файла. Для переименования файла в текущей директории введите текущее имя файла\n \t\tи новое имя файла через пробел. Для переименовании файла в другой директории\n \t\tвведите сначала путь. ";
+    public override string Description => "Переименование файла. Для переименования файла в текущей директории введите текущее имя файла\n│\t\tи новое имя файла через пробел. Для переименовании файла в другой директории\n│\t\tвведите сначала путь. ";
 
     private void Aprove(string dir_path, string file_name, string newFileName)
     {

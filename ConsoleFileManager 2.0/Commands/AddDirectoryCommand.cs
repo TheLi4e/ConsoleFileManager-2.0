@@ -1,11 +1,12 @@
-﻿using FileManager.Commands.Base;
+﻿using ConsoleFileManager_2._0.GUI;
+using FileManager.Commands.Base;
 namespace FileManager.Commands;
 
 public class AddDirectoryCommand : FileManagerCommand
 {
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
-    public override string Description => "Для создания вложенной директории введите имя папки.\n \t\tДля создания папки в другой директории введите путь и имя папки через пробел.";
+    public override string Description => "Для создания вложенной директории введите имя папки.\n│\t\tДля создания папки в другой директории введите путь и имя папки через пробел.";
     public AddDirectoryCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {
         _UserInterface = UserInterface;
@@ -41,7 +42,6 @@ public class AddDirectoryCommand : FileManagerCommand
                 var fileWithSpace = args1.Split('\"');
                 var dir_path = fileWithSpace[1];
                 var dir_name = fileWithSpace[2];
-                var toOverride = dir_path.Trim() + dir_name.Trim();
 
                 if (!Directory.Exists(fileWithSpace[1]))
                     _UserInterface.WriteLine("Указанной директории не существует.");
@@ -56,6 +56,7 @@ public class AddDirectoryCommand : FileManagerCommand
                 Aprove(dir_path, file_name);
             }
         }
+       
 
     }
 }

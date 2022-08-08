@@ -1,4 +1,5 @@
-﻿using FileManager.Commands.Base;
+﻿using ConsoleFileManager_2._0.GUI;
+using FileManager.Commands.Base;
 
 namespace FileManager.Commands;
 
@@ -6,7 +7,7 @@ public class ChangeDirectoryCommand : FileManagerCommand
 {
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
-    public override string Description => "\tИзменение текущего каталога";
+    public override string Description => "Изменение текущего каталога";
 
     public ChangeDirectoryCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {

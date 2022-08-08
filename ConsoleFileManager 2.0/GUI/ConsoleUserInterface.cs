@@ -1,4 +1,6 @@
-﻿namespace FileManager;
+﻿using System.Text;
+
+namespace ConsoleFileManager_2._0.GUI;
 
 public class ConsoleUserInterface : IUserInterface
 {
@@ -14,7 +16,7 @@ public class ConsoleUserInterface : IUserInterface
 
     private void WritePrompt(string? Prompt, bool PromptNewLine)
     {
-        //if(Prompt != null && Prompt.Length > 0)
+        
         if (Prompt is { Length: > 0 })
             if (PromptNewLine)
                 WriteLine(Prompt);
@@ -39,7 +41,7 @@ public class ConsoleUserInterface : IUserInterface
 
             var input = Console.ReadLine();
             success = int.TryParse(input, out value);
-            if(!success)
+            if (!success)
                 WriteLine("Строка имела неверный формат");
         }
         while (!success);
@@ -63,5 +65,15 @@ public class ConsoleUserInterface : IUserInterface
         while (!success);
 
         return value;
+    }
+
+    public void WriteLine(object obj)
+    {
+        Console.WriteLine(obj);
+    }
+
+    public void Write(StringBuilder message, string[] args)
+    {
+        throw new NotImplementedException();
     }
 }

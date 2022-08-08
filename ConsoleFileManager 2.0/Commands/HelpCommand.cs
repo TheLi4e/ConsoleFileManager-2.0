@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ConsoleFileManager_2._0.GUI;
 using FileManager.Commands.Base;
 
 namespace FileManager.Commands;
@@ -22,9 +18,7 @@ public class HelpCommand : FileManagerCommand
 
     public override void Execute(string[] args)
     {
-        _UserInterface.WriteLine("Файловый менеджер поддерживает следующие команды:");
-
         foreach (var (name, command) in _FileManager.Commands)
-            _UserInterface.WriteLine($"    {name}\t{command.Description}");
+            _UserInterface.WriteLine($"    {name,-10}\t{command.Description}");
     }
 }

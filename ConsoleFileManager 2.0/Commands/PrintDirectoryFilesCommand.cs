@@ -1,4 +1,6 @@
-﻿using FileManager.Commands.Base;
+﻿using ConsoleFileManager_2._0.GUI;
+using FileManager.Commands.Base;
+using System.Text;
 
 namespace FileManager.Commands;
 
@@ -7,7 +9,7 @@ public class PrintDirectoryFilesCommand : FileManagerCommand
     private readonly IUserInterface _UserInterface;
     private readonly FileManagerLogic _FileManager;
 
-    public override string Description => "Вывод содержимого директории";
+    public override string Description => "Вывод содержимого директории. Для вывода конкретной страницы укажите аргумент -p N,\n│\t\tгде N - номер страницы";
 
     public PrintDirectoryFilesCommand(IUserInterface UserInterface, FileManagerLogic FileManager)
     {
@@ -18,25 +20,34 @@ public class PrintDirectoryFilesCommand : FileManagerCommand
     public override void Execute(string[] args)
     {
         var directory = _FileManager.CurrentDirectory;
-        _UserInterface.WriteLine($"Содержимое директории {directory}:");
 
-        var dirs_count = 0;
-        foreach (var sub_dir in directory.EnumerateDirectories())
+        StringBuilder tree = new StringBuilder();
+        tree.Append($"{directory}\n");
+
+        DirectoryInfo[] sub_dirs = directory.GetDirectories();
+        for (int i = 0; i < sub_dirs.Length; i++)
         {
-            _UserInterface.WriteLine($"    d    {sub_dir.Name}");
-            dirs_count++;
+            if (i == sub_dirs.Length - 1)
+                tree.Append($"  └─{sub_dirs[i].Name}\n");
+            else
+                tree.Append($"  ├─{sub_dirs[i].Name}\n");
         }
 
-        var files_count = 0;
+        FileInfo[] files = directory.GetFiles();
         long total_length = 0;
-        foreach (var file in directory.EnumerateFiles())
-        {
-            _UserInterface.WriteLine($"    f    {file.Name}\t{file.Length}");
-            files_count++;
-            total_length += file.Length;
-        }
 
-        _UserInterface.WriteLine("");
-        _UserInterface.WriteLine($"Директорий {dirs_count}, файлов {files_count} (суммарный размер {total_length} байт)");
+        for (int i = 0; i < files.Length; i++)
+        {
+            if (i == files.Length - 1)
+            {
+                tree.Append($"  └─{files[i].Name}\n");
+            }
+            else
+            {
+                tree.Append($"  ├─{files[i].Name}\n");
+            }
+            total_length += files[i].Length;
+        }
+        _UserInterface.Write(tree, args);
     }
 }
