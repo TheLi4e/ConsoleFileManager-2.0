@@ -14,14 +14,43 @@ public class GetDirAtributesCommand : FileManagerCommand
     }
     public override string Description => "Получение атрибутов директории.";
 
-
-    private void GetInfo(DirectoryInfo dir)
+    /// <summary>
+    /// Вывод информации о директории
+    /// </summary>
+    /// <param name="dir">Указанная директория</param>
+   private void GetInfo(DirectoryInfo dir)
     {
+        _UserInterface.Write ("Сводные данные:\t\t\t");
+        SubDirInfo(dir);
         _UserInterface.WriteLine($"Аттрибуты директории {dir.Name}: \t\t{dir.Attributes}");
         _UserInterface.WriteLine($"Время создания директории: \t\t{dir.CreationTime}");
         _UserInterface.WriteLine($"Время последнего доступа к каталогу: \t{dir.LastAccessTime}");
         _UserInterface.WriteLine($"Путь к директории: \t\t\t{dir.FullName}");
     }
+
+    /// <summary>
+    /// Получение данных о вложенных папках и файлах
+    /// </summary>
+    /// <param name="dir">Указанная директория</param>
+    private void SubDirInfo (DirectoryInfo dir)
+    {
+        var dirs_count = 0;
+        foreach (var sub_dir in dir.EnumerateDirectories())
+        {
+            dirs_count++;
+        }
+
+        var files_count = 0;
+        long total_length = 0;
+        foreach (var file in dir.EnumerateFiles())
+        {
+            files_count++;
+            total_length += file.Length;
+        }
+
+        _UserInterface.WriteLine($"Директорий {dirs_count}, файлов {files_count}, (суммарный размер {total_length} байт)");
+    }
+
 
     public override void Execute(string[] args)
     {
