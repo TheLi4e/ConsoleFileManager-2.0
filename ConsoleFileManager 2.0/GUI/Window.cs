@@ -140,10 +140,7 @@ public class Window : IUserInterface
 
         if (args.Length > 2 && args[1] == "-p" && int.TryParse(args[2], out page))
         {
-            if (page > pageTotal)
-            {
-                page = pageTotal;
-            }
+            page = Math.Min(page, pageTotal);
         }
         else
         {
