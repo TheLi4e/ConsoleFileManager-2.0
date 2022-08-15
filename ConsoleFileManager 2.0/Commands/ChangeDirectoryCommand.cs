@@ -17,7 +17,7 @@ public class ChangeDirectoryCommand : FileManagerCommand
 
     public override void Execute(string[] args)
     {
-        if (args.Length < 2 || string.IsNullOrWhiteSpace(args[1]))
+        if (args.Length < 2 || args[1] is not { Length: > 0 })
         {
             _UserInterface.WriteLine("Для команды смены каталога необходимо указать один параметр - целевой каталог");
             return;
