@@ -34,11 +34,7 @@ public class GetDirAtributesCommand : FileManagerCommand
     /// <param name="dir">Указанная директория</param>
     private void SubDirInfo (DirectoryInfo dir)
     {
-        var dirs_count = 0;
-        foreach (var sub_dir in dir.EnumerateDirectories())
-        {
-            dirs_count++;
-        }
+        var dirs_count = dir.EnumerateDirectories().Count(); // LINQ
 
         var files_count = 0;
         long total_length = 0;
