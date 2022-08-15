@@ -16,8 +16,7 @@ public class CopyDirectoryCommand : FileManagerCommand
 
     private void Copy(string dir_path, string newDir_path, bool recursive)
     {
-        var dir = new DirectoryInfo(dir_path);
-        if (!dir.Exists)
+        if (new DirectoryInfo(dir_path) is not { Exists: true } dir)
         {
             return;
         }
