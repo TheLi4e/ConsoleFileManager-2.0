@@ -49,13 +49,8 @@ public class CopyDirectoryCommand : FileManagerCommand
             if (!Directory.Exists(args[1]))
             {
                 var args1 = String.Join(" ", args);
-                var fileWithSpace = args1.Split('\"');
-
-                if (!Directory.Exists(fileWithSpace[1]))
+                if(args1.Split('\"') is not [dir_path, newDir_path] || !Directory.Exists(newDir_path))
                     _UserInterface.WriteLine("Указанной директории не существует.");
-
-                var dir_path = fileWithSpace[1];
-                var newDir_path = fileWithSpace[2];
 
                 Copy(dir_path, newDir_path, true);
             }
