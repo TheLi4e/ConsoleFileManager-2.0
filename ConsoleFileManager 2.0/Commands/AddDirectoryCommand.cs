@@ -20,7 +20,7 @@ public class AddDirectoryCommand : FileManagerCommand
     {
         var toOverride = Path.Combine(dir_path, dir_name);
         var aprove = _UserInterface.ReadLine($"Создать директорию {dir_name} да/нет? ", false).ToLower();
-        if (aprove == "да")
+        if (aprove is "да" or "Да" or "ДА" or "y" or "Y" or "Yes" or "yes")
         {
             Directory.CreateDirectory(toOverride);
             _UserInterface.WriteLine($"Директория {dir_name} создана.");
