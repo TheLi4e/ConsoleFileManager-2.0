@@ -38,14 +38,12 @@ public class PrintDirectoryFilesCommand : FileManagerCommand
 
         for (int i = 0; i < files.Length; i++)
         {
-            if (i == files.Length - 1)
-            {
-                tree.Append($"  └─{files[i].Name}\n");
-            }
-            else
-            {
-                tree.Append($"  ├─{files[i].Name}\n");
-            }
+            tree
+                .AppendFormat(i == files.Length - 1 
+                    ? "  └─{0}" 
+                    : "  ├─{0}", 
+                    files[i].Name)
+                .AppendLine();
             total_length += files[i].Length;
         }
         _UserInterface.Write(tree, args);
