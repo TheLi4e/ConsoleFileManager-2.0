@@ -1,4 +1,5 @@
-﻿using FileManager.Commands.Base;
+﻿using ConsoleFileManager_2._0.GUI;
+using FileManager.Commands.Base;
 
 namespace FileManager.Commands;
 
@@ -16,7 +17,7 @@ public class ChangeDirectoryCommand : FileManagerCommand
 
     public override void Execute(string[] args)
     {
-        if (args.Length != 2 || string.IsNullOrWhiteSpace(args[1]))
+        if (args.Length < 2 || args[1] is not { Length: > 0 })
         {
             _UserInterface.WriteLine("Для команды смены каталога необходимо указать один параметр - целевой каталог");
             return;
@@ -25,11 +26,6 @@ public class ChangeDirectoryCommand : FileManagerCommand
         var dir_path = args[1];
 
         DirectoryInfo? directory;
-
-        //if (Path.IsPathRooted(dir_path))
-        //    directory = new DirectoryInfo(dir_path);
-        //else
-        //    directory = new DirectoryInfo(Path.Combine(_FileManager.CurrentDirectory.FullName, dir_path));
 
         if (dir_path == "..")
         {
@@ -46,7 +42,16 @@ public class ChangeDirectoryCommand : FileManagerCommand
 
         if (!directory.Exists)
         {
-            _UserInterface.WriteLine($"Директория {directory} не существует");
+            var args1 = String.Join(" ", args);
+            var dirWithSpace = args1.Split('\"');
+            directory = new DirectoryInfo(dirWithSpace[1]);
+
+            if (!Directory.Exists(dirWithSpace[1]))
+                _UserInterface.WriteLine($"Директория {directory} не существует");
+
+            _FileManager.CurrentDirectory = directory;
+
+            _UserInterface.WriteLine($"Текущая директория изменена на {directory.FullName}");
             return;
         }
 
