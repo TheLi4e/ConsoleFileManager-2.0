@@ -3,6 +3,7 @@
 # ConsoleFileManager 2.0
 ![manager2](https://user-images.githubusercontent.com/104021944/183704854-41c89e12-7734-440f-9108-873d7b205889.jpg)
 ![manager21](https://user-images.githubusercontent.com/104021944/183704894-8b469114-0ee3-4c8d-9a77-01dd4a731c18.jpg)
+
 ### Функции менеджера
 1. Вывод дерева файловой системы с условием “пейджинга”;
 2. Копирование каталога;
